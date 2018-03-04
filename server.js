@@ -8,14 +8,15 @@ var result = 0
 server.on('connection', function(sock) {
   var operand = '+'
   sock.on('data', function(data) {
-    if (data == '+' || data == '-') {
-      operand = data
-      sock.send('ok')
+    var d = data.toString()
+    if (d == '+' || d == '-') {
+      operand = d
+      sock.write('ok')
     } else {
-      var number = parseInt(data)
+      var number = parseInt(d.toString())
       if (operand == '+') result += number
       else if (operand == '-') result -= number
-      sock.send(result)
+      sock.write(result.toString())
       sock.destroy()
       sock.end()
     }
